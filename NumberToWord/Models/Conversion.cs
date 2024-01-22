@@ -1,16 +1,35 @@
 using NumberToWords.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace NumberToWords.Models
 {
   public class Conversion
   {
     public int ConversionNum {get; set;}
-
-    public Conversion(int userNum)
+    public string ConvertedWord { get; set; }
+    public string userNum {get; set;}
+        // public int UserNum { get; set; }
+    public Conversion(string userNum)
     {
-      ConversionNum = userNum;
+      if (int.TryParse(userNum, out int parsedNum))
+      {
+        Console.WriteLine("userNum: " + userNum + "parsedNum: " + parsedNum);
+        ConversionNum = parsedNum;
+        ConvertedWord = Dictionary(parsedNum);
+      }
+      else
+      {
+        Console.WriteLine("userNum: " + userNum + "parsedNum: " + parsedNum);
+        ConvertedWord = "Invalid Input";
+      }
+      // ConversionNum = userNum;
+      // ConvertedWord = Dictionary(userNum);
+      // Conversion newConversion = new Conversion(userNum);
+      // int userNumInt = int.Parse(userNum);
+      // int ConversionNum = Dictionary(userNumInt);
+      // return result;
     }
 
     public int CheckNumLength()

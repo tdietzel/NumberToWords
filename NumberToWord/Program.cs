@@ -1,51 +1,29 @@
-using System;
-using System.Collections.Generic;
-using NumberToWords.Models;
-using NumberToWord.UserInterfaceModels;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace NumberToWord
+namespace MadLib
 {
   class Program
   {
-    static void Main()
+    static void Main(string[] args)
     {
-      Console.BackgroundColor = ConsoleColor.Blue;
-      Console.ForegroundColor = ConsoleColor.White;
-      Console.WriteLine(NumberToWord.UserInterfaceModels.WelcomeBanner.Welcome);
-      // Console.WriteLine("Welcome to the Numbers To Words App!");
-      Conversion();
-    }
-    static void Conversion()
-    {
-      Console.WriteLine("Please enter a number to convert to a word:");
-      Console.WriteLine("------------------");
-      string userNum = Console.ReadLine();
-      try 
-      {
-      Conversion newConversion = new Conversion(int.Parse(userNum));
-      string result = newConversion.Dictionary(int.Parse(userNum));
-      Console.WriteLine(result);
-      Console.Beep();
-      Navigate();
-      }
-      catch
-      {
-        Console.WriteLine("!!!!!");
-        Console.WriteLine("Error: I SAID NUMBER!");
-      }
-    }
-    static void Navigate()
-    {
-      Console.WriteLine("Would you like another number? Enter 'yes' to proceed, or 'no' to exit");
-      string userInput = Console.ReadLine();
-      if (userInput == "yes" || userInput == "Yes")
-      {
-        Conversion();
-      }
-      else if (userInput == "no" || userInput == "No")
-      {
-        Console.WriteLine(NumberToWord.UserInterfaceModels.GoodbyeBanner.Goodbye);
-      }
+      WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+
+      builder.Services.AddControllersWithViews();
+
+      WebApplication app = builder.Build();
+
+      // app.UseDeveloperExceptionPage();
+      app.UseHttpsRedirection();
+
+      app.UseRouting();
+
+      app.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}"
+      );
+
+      app.Run();
     }
   }
 }
